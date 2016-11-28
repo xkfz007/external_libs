@@ -1,3 +1,6 @@
+# Prerequisites
+*.d
+
 # Object files
 *.o
 *.ko
@@ -9,16 +12,16 @@
 *.pch
 
 # Libraries
-*.lib
-*.a
-*.la
-*.lo
+#*.lib
+#*.a
+#*.la
+#*.lo
 
 # Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+#*.dll
+#*.so
+#*.so.*
+#*.dylib
 
 # Executables
 *.exe
@@ -31,3 +34,15 @@
 # Debug files
 *.dSYM/
 *.su
+
+# Microsoft visual studio project files
+*.suo
+*.ncb
+*.user
+Debug/
+Release/
+x64/
+
+*.pc
+*.rc
+*.manifest
