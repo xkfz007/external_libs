@@ -1,203 +1,182 @@
-/* ISO C9x  7.18  Integer types <stdint.h>
- * Based on ISO/IEC SC22/WG14 9899 Committee draft (SC22 N2794)
+/*-
+ * Copyright (c) 2001, 2002 Mike Barcroft <mike@FreeBSD.org>
+ * Copyright (c) 2001 The NetBSD Foundation, Inc.
+ * All rights reserved.
  *
- *  THIS SOFTWARE IS NOT COPYRIGHTED
+ * This code is derived from software contributed to The NetBSD Foundation
+ * by Klaus Klein.
  *
- *  Contributor: Danny Smith <danny_r_smith_2001@yahoo.co.nz>
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. All advertising materials mentioning features or use of this software
+ *    must display the following acknowledgement:
+ *        This product includes software developed by the NetBSD
+ *        Foundation, Inc. and its contributors.
+ * 4. Neither the name of The NetBSD Foundation nor the names of its
+ *    contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
  *
- *  This source code is offered for use in the public domain. You may
- *  use, modify or distribute it freely.
+ * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  *
- *  This code is distributed in the hope that it will be useful but
- *  WITHOUT ANY WARRANTY. ALL WARRANTIES, EXPRESS OR IMPLIED ARE HEREBY
- *  DISCLAIMED. This includes but is not limited to warranties of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- *  Date: 2000-12-02
+ * $FreeBSD: src/sys/i386/include/_stdint.h,v 1.2 2004/05/18 16:04:57 stefanf Exp $
  */
 
+#ifndef _MACHINE__STDINT_H_
+#define	_MACHINE__STDINT_H_
 
-#ifndef _STDINT_H
-#define _STDINT_H
-#define __need_wint_t
-#define __need_wchar_t
-#include <stddef.h>
+#include "_types.h"
 
-/* 7.18.1.1  Exact-width integer types */
-typedef signed char int8_t;
-typedef unsigned char   uint8_t;
-typedef short  int16_t;
-typedef unsigned short  uint16_t;
-typedef int  int32_t;
-typedef unsigned   uint32_t;
-typedef __int64  int64_t;
-typedef unsigned __int64 uint64_t;
+#if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS)
 
-/* 7.18.1.2  Minimum-width integer types */
-typedef signed char int_least8_t;
-typedef unsigned char   uint_least8_t;
-typedef short  int_least16_t;
-typedef unsigned short  uint_least16_t;
-typedef int  int_least32_t;
-typedef unsigned   uint_least32_t;
-typedef __int64  int_least64_t;
-typedef unsigned __int64   uint_least64_t;
+#define	INT8_C(c)		(c)
+#define	INT16_C(c)		(c)
+#define	INT32_C(c)		(c)
+#define	INT64_C(c)		((__int64)c)
 
-/*  7.18.1.3  Fastest minimum-width integer types
- *  Not actually guaranteed to be fastest for all purposes
- *  Here we use the exact-width types for 8 and 16-bit ints.
- */
-typedef char int_fast8_t;
-typedef unsigned char uint_fast8_t;
-typedef short  int_fast16_t;
-typedef unsigned short  uint_fast16_t;
-typedef int  int_fast32_t;
-typedef unsigned  int  uint_fast32_t;
-typedef __int64  int_fast64_t;
-typedef unsigned __int64   uint_fast64_t;
+//#define	INT64_C(c)		((__int64)c) ## LL)
 
-/* 7.18.1.4  Integer types capable of holding object pointers */
-/*typedef int intptr_t;
-typedef unsigned uintptr_t;*/
+#define	UINT8_C(c)		(c)
+#define	UINT16_C(c)		(c)
+#define	UINT32_C(c)		((unsigned int)c)
+#define	UINT64_C(c)		((unsigned __int64)c)
+#define	INTMAX_C(c)		((int)c)
+#define	UINTMAX_C(c)	((unsigned int)c)
 
-/* 7.18.1.5  Greatest-width integer types */
-typedef __int64  intmax_t;
-typedef unsigned __int64   uintmax_t;
+//#define	UINT32_C(c)		(c ## U)
+//#define	UINT64_C(c)		(c ## ULL)
+//#define	INTMAX_C(c)		(c ## LL)
+//#define	UINTMAX_C(c)		(c ## ULL)
 
-/* 7.18.2  Limits of specified-width integer types */
-#if !defined ( __cplusplus) || defined (__STDC_LIMIT_MACROS)
+#endif /* !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS) */
 
-/* 7.18.2.1  Limits of exact-width integer types */
-#define INT8_MIN (-128)
-#define INT16_MIN (-32768)
-#define INT32_MIN (-2147483647 - 1)
-#define INT64_MIN  (-9223372036854775807LL - 1)
-
-#define INT8_MAX 127
-#define INT16_MAX 32767
-#define INT32_MAX 2147483647
-#define INT64_MAX 9223372036854775807LL
-
-#define UINT8_MAX 0xff /* 255U */
-#define UINT16_MAX 0xffff /* 65535U */
-#define UINT32_MAX 0xffffffff  /* 4294967295U */
-#define UINT64_MAX 0xffffffffffffffffULL /* 18446744073709551615ULL */
-
-/* 7.18.2.2  Limits of minimum-width integer types */
-#define INT_LEAST8_MIN INT8_MIN
-#define INT_LEAST16_MIN INT16_MIN
-#define INT_LEAST32_MIN INT32_MIN
-#define INT_LEAST64_MIN INT64_MIN
-
-#define INT_LEAST8_MAX INT8_MAX
-#define INT_LEAST16_MAX INT16_MAX
-#define INT_LEAST32_MAX INT32_MAX
-#define INT_LEAST64_MAX INT64_MAX
-
-#define UINT_LEAST8_MAX UINT8_MAX
-#define UINT_LEAST16_MAX UINT16_MAX
-#define UINT_LEAST32_MAX UINT32_MAX
-#define UINT_LEAST64_MAX UINT64_MAX
-
-/* 7.18.2.3  Limits of fastest minimum-width integer types */
-#define INT_FAST8_MIN INT8_MIN
-#define INT_FAST16_MIN INT16_MIN
-#define INT_FAST32_MIN INT32_MIN
-#define INT_FAST64_MIN INT64_MIN
-
-#define INT_FAST8_MAX INT8_MAX
-#define INT_FAST16_MAX INT16_MAX
-#define INT_FAST32_MAX INT32_MAX
-#define INT_FAST64_MAX INT64_MAX
-
-#define UINT_FAST8_MAX UINT8_MAX
-#define UINT_FAST16_MAX UINT16_MAX
-#define UINT_FAST32_MAX UINT32_MAX
-#define UINT_FAST64_MAX UINT64_MAX
-
-/* 7.18.2.4  Limits of integer types capable of holding
-    object pointers */
-#if defined(_WIN64) || defined(__LP64__)
-#define INTPTR_MIN INT64_MIN
-#define INTPTR_MAX INT64_MAX
-#define UINTPTR_MAX UINT64_MAX
-#else
-#define INTPTR_MIN INT32_MIN
-#define INTPTR_MAX INT32_MAX
-#define UINTPTR_MAX UINT32_MAX
-#endif
-
-/* 7.18.2.5  Limits of greatest-width integer types */
-#define INTMAX_MIN INT64_MIN
-#define INTMAX_MAX INT64_MAX
-#define UINTMAX_MAX UINT64_MAX
-
-/* 7.18.3  Limits of other integer types */
-#if defined(_WIN64) || defined(__LP64__)
-#define PTRDIFF_MIN INT64_MIN
-#define PTRDIFF_MAX INT64_MAX
-#else
-#define PTRDIFF_MIN INT32_MIN
-#define PTRDIFF_MAX INT32_MAX
-#endif
-
-#define SIG_ATOMIC_MIN INT32_MIN
-#define SIG_ATOMIC_MAX INT32_MAX
-
-#ifndef SIZE_MAX
-#if defined(_WIN64) || defined(__LP64__)
-#define SIZE_MAX UINT64_MAX
-#else
-#define SIZE_MAX UINT32_MAX
-#endif
-#endif
-
-#ifndef WCHAR_MIN  /* also in wchar.h */
-#define WCHAR_MIN 0
-#define WCHAR_MAX ((wchar_t)-1) /* UINT16_MAX */
-#endif
+#if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS)
 
 /*
- * wint_t is unsigned short for compatibility with MS runtime
+ * ISO/IEC 9899:1999
+ * 7.18.2.1 Limits of exact-width integer types
  */
-#define WINT_MIN 0
-#define WINT_MAX ((wint_t)-1) /* UINT16_MAX */
+/* Minimum values of exact-width signed integer types. */
+#define	INT8_MIN	(-0x7f-1)
+#define	INT16_MIN	(-0x7fff-1)
+#define	INT32_MIN	(-0x7fffffff-1)
+#define	INT64_MIN	((__int64)(-0x7fffffffffffffff-1))
 
-#endif /* !defined ( __cplusplus) || defined __STDC_LIMIT_MACROS */
+/* Maximum values of exact-width signed integer types. */
+#define	INT8_MAX	0x7f
+#define	INT16_MAX	0x7fff
+#define	INT32_MAX	0x7fffffff
+#define	INT64_MAX	((__int64)(0x7fffffffffffffff))
 
+/* Maximum values of exact-width unsigned integer types. */
+#define	UINT8_MAX	0xff
+#define	UINT16_MAX	0xffff
+#define	UINT32_MAX	0xffffffff
+#define	UINT64_MAX	((unsigned __int64)(0xffffffffffffffff))
 
-/* 7.18.4  Macros for integer constants */
-#if !defined ( __cplusplus) || defined (__STDC_CONSTANT_MACROS)
+#define INT_MIN  INT32_MIN
+#define INT_MAX  INT32_MAX
 
-/* 7.18.4.1  Macros for minimum-width integer constants
+/*
+ * ISO/IEC 9899:1999
+ * 7.18.2.2  Limits of minimum-width integer types
+ */
+/* Minimum values of minimum-width signed integer types. */
+#define	INT_LEAST8_MIN	INT8_MIN
+#define	INT_LEAST16_MIN	INT16_MIN
+#define	INT_LEAST32_MIN	INT32_MIN
+#define	INT_LEAST64_MIN	INT64_MIN
 
-    Accoding to Douglas Gwyn <gwyn@arl.mil>:
-	"This spec was changed in ISO/IEC 9899:1999 TC1; in ISO/IEC
-	9899:1999 as initially published, the expansion was required
-	to be an integer constant of precisely matching type, which
-	is impossible to accomplish for the shorter types on most
-	platforms, because C99 provides no standard way to designate
-	an integer constant with width less than that of type int.
-	TC1 changed this to require just an integer constant
-	*expression* with *promoted* type."
+/* Maximum values of minimum-width signed integer types. */
+#define	INT_LEAST8_MAX	INT8_MAX
+#define	INT_LEAST16_MAX	INT16_MAX
+#define	INT_LEAST32_MAX	INT32_MAX
+#define	INT_LEAST64_MAX	INT64_MAX
 
-	The trick used here is from Clive D W Feather.
-*/
+/* Maximum values of minimum-width unsigned integer types. */
+#define	UINT_LEAST8_MAX	 UINT8_MAX
+#define	UINT_LEAST16_MAX UINT16_MAX
+#define	UINT_LEAST32_MAX UINT32_MAX
+#define	UINT_LEAST64_MAX UINT64_MAX
 
-#define INT8_C(val) (INT_LEAST8_MAX-INT_LEAST8_MAX+(val))
-#define INT16_C(val) (INT_LEAST16_MAX-INT_LEAST16_MAX+(val))
-#define INT32_C(val) (INT_LEAST32_MAX-INT_LEAST32_MAX+(val))
-#define INT64_C(val) (INT_LEAST64_MAX-INT_LEAST64_MAX+(val))
+/*
+ * ISO/IEC 9899:1999
+ * 7.18.2.3  Limits of fastest minimum-width integer types
+ */
+/* Minimum values of fastest minimum-width signed integer types. */
+#define	INT_FAST8_MIN	INT32_MIN
+#define	INT_FAST16_MIN	INT32_MIN
+#define	INT_FAST32_MIN	INT32_MIN
+#define	INT_FAST64_MIN	INT64_MIN
 
-#define UINT8_C(val) (UINT_LEAST8_MAX-UINT_LEAST8_MAX+(val))
-#define UINT16_C(val) (UINT_LEAST16_MAX-UINT_LEAST16_MAX+(val))
-#define UINT32_C(val) (UINT_LEAST32_MAX-UINT_LEAST32_MAX+(val))
-#define UINT64_C(val) (UINT_LEAST64_MAX-UINT_LEAST64_MAX+(val))
+/* Maximum values of fastest minimum-width signed integer types. */
+#define	INT_FAST8_MAX	INT32_MAX
+#define	INT_FAST16_MAX	INT32_MAX
+#define	INT_FAST32_MAX	INT32_MAX
+#define	INT_FAST64_MAX	INT64_MAX
 
-/* 7.18.4.2  Macros for greatest-width integer constants */
-#define INTMAX_C(val) (INTMAX_MAX-INTMAX_MAX+(val))
-#define UINTMAX_C(val) (UINTMAX_MAX-UINTMAX_MAX+(val))
+/* Maximum values of fastest minimum-width unsigned integer types. */
+#define	UINT_FAST8_MAX	UINT32_MAX
+#define	UINT_FAST16_MAX	UINT32_MAX
+#define	UINT_FAST32_MAX	UINT32_MAX
+#define	UINT_FAST64_MAX	UINT64_MAX
 
-#endif  /* !defined ( __cplusplus) || defined __STDC_CONSTANT_MACROS */
+/*
+ * ISO/IEC 9899:1999
+ * 7.18.2.4  Limits of integer types capable of holding object pointers
+ */
+#define	INTPTR_MIN	INT32_MIN
+#define	INTPTR_MAX	INT32_MAX
+#define	UINTPTR_MAX	UINT32_MAX
 
+/*
+ * ISO/IEC 9899:1999
+ * 7.18.2.5  Limits of greatest-width integer types
+ */
+#define	INTMAX_MIN	INT64_MIN
+#define	INTMAX_MAX	INT64_MAX
+#define	UINTMAX_MAX	UINT64_MAX
+
+/*
+ * ISO/IEC 9899:1999
+ * 7.18.3  Limits of other integer types
+ */
+/* Limits of ptrdiff_t. */
+#define	PTRDIFF_MIN	INT32_MIN	
+#define	PTRDIFF_MAX	INT32_MAX
+
+/* Limits of sig_atomic_t. */
+#define	SIG_ATOMIC_MIN	INT32_MIN
+#define	SIG_ATOMIC_MAX	INT32_MAX
+
+/* Limit of size_t. */
+#define	SIZE_MAX	UINT32_MAX
+
+#ifndef WCHAR_MIN /* Also possibly defined in <wchar.h> */
+/* Limits of wchar_t. */
+#define	WCHAR_MIN	INT32_MIN
+#define	WCHAR_MAX	INT32_MAX
 #endif
+
+/* Limits of wint_t. */
+#define	WINT_MIN	INT32_MIN
+#define	WINT_MAX	INT32_MAX
+
+#endif /* !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS) */
+
+#endif /* !_MACHINE__STDINT_H_ */
