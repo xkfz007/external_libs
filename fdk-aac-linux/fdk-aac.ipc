@@ -1,0 +1,5 @@
+Name: fdk-aac
+Description: AAC Codec Library
+Version: 0.1.4
+Libs: -L${libdir} -lfdk-aac -lm
+Cflags: -I${includedir}
